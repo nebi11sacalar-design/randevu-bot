@@ -15,7 +15,7 @@ const client = new Client({
     authStrategy: new LocalAuth({ dataPath: './wp-session' }),
     puppeteer: {
         headless: true, // Render'da mutlaka true olmalı
-        executablePath: '/usr/bin/google-chrome-stable', // apt-get ile kurduğumuz Chrome yolu
+       // executablePath: '/usr/bin/google-chrome-stable', // apt-get ile kurduğumuz Chrome yolu
         args: [
             '--no-sandbox', 
             '--disable-setuid-sandbox',
