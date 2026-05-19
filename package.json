@@ -1,4 +1,5 @@
 {
+  "puppeteer": "^22.0.0"
   "name": "wp-bot",
   "version": "1.0.0",
   "main": "app.js",
