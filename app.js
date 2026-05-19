@@ -14,8 +14,18 @@ const PHP_WEBHOOK_URL = 'https://randevum.store/db/Webhook/wp_webhook.php';
 const client = new Client({
     authStrategy: new LocalAuth({ dataPath: './wp-session' }),
     puppeteer: {
-        headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
+        headless: true, // Render'da mutlaka true olmalı
+        executablePath: '/usr/bin/google-chrome-stable', // apt-get ile kurduğumuz Chrome yolu
+        args: [
+            '--no-sandbox', 
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-accelerated-2d-canvas',
+            '--no-first-run',
+            '--no-zygote',
+            '--single-process', // Render için kritik
+            '--disable-gpu'
+        ]
     }
 });
 
@@ -62,6 +72,7 @@ client.on('qr', (qr) => {
 });
 
 client.on('ready', () => {
+    console.log('WhatsApp Bağlantısı Hazır!');
     io.emit('ready');
 });
 
@@ -78,13 +89,13 @@ client.on('message', async (msg) => {
             msg.reply(response.data.reply);
         }
     } catch (error) {
-        console.error('PHP sunucu hatası');
+        console.error('PHP sunucu hatası:', error.message);
     }
 });
 
 client.initialize();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 server.listen(PORT, () => {
     console.log('Port aktif: ' + PORT);
 });
